@@ -1,0 +1,74 @@
+{
+  "name": "admin-telegram-bot",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/admin-telegram-bot/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/admin-telegram-bot",
+        "main": "apps/admin-telegram-bot/src/main.ts",
+        "tsConfig": "apps/admin-telegram-bot/tsconfig.app.json",
+        "assets": [
+          "apps/admin-telegram-bot/src/assets"
+        ],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/admin-telegram-bot/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "admin-telegram-bot:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "admin-telegram-bot:build:development"
+        },
+        "production": {
+          "buildTarget": "admin-telegram-bot:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "apps/admin-telegram-bot/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "apps/admin-telegram-bot/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
